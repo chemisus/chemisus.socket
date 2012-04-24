@@ -9,6 +9,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +46,8 @@ public class Socket
     /*\**********************************************************************\*/
     private final java.net.Socket socket;
     
+    private final ConcurrentHashMap<Integer, Class> packets = new ConcurrentHashMap<Integer, Class>();
+
     private final Object write = new Object();
     
     private final Object read = new Object();
@@ -197,16 +200,78 @@ public class Socket
     protected Packet readPacket()
         throws IOException
     {
-        Packet packet = Packet.Instance(input.readInt());
+        int index = input.readInt();
+        
+        Packet packet = instancePacket(index);
+        
+        if (packet == null)
+        {
+            packet = Packet.Instance(input.readInt());
+
+            if (packet == null)
+            {
+                Logger.getLogger(Packet.class.getName()).log(
+                    Level.SEVERE, "Packet {0} does not exist", index);
+            }
+        }
 
         packet.read(input);
         
         return packet;
     }
+
+    protected Packet instancePacket(int index)
+    {
+        try
+        {
+            if (packets.containsKey(index))
+            {
+                return (Packet)packets.get(index).newInstance();
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.getLogger(Packet.class.getName()).log(
+                Level.SEVERE, "The index was: " + index, ex
+            );
+        }
+        catch (InstantiationException ex)
+        {
+            Logger.getLogger(Packet.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+        }
+        catch (IllegalAccessException ex)
+        {
+            Logger.getLogger(Packet.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+        }
+        
+        return null;
+    }
     
     /*\**********************************************************************\*/
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
+    public boolean registerPacket(Class c)
+    {
+        try
+        {
+            packets.put(((Packet)c.newInstance()).getPacketIndex(), c);
+            
+            return true;
+        }
+        catch (InstantiationException | IllegalAccessException ex)
+        {
+            Logger.getLogger(Socket.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+        }
+        
+        return false;
+    }
+    
     public void write(Packet packet) throws IOException
     {
         synchronized(write)
