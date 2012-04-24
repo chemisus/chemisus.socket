@@ -220,14 +220,12 @@ public class Server
     }
 
     /**
-     * Stop accepting connections and close the socket.
+     * Stop accepting connections.
      */
-    public void close() throws IOException
+    public void stop()
     {
         accepting = false;
-        
-        server.close();
-        
+
         try
         {
             thread.join();
@@ -238,6 +236,16 @@ public class Server
                 Level.SEVERE, null, ex
             );
         }
+    }
+
+    /**
+     * Stop accepting connections and close the socket.
+     */
+    public void close() throws IOException
+    {
+        stop();
+        
+        server.close();
     }
 
     /*\**********************************************************************\*/
