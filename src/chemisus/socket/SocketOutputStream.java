@@ -42,11 +42,6 @@ public class SocketOutputStream
     /*\**********************************************************************\*/
     private final DataOutputStream output;
     
-    private volatile long out = 0;
-    
-    private volatile int hash = 0;
-    
-    
     /*\**********************************************************************\*/
     /*\                             Properties                               \*/
     /*\**********************************************************************\*/
@@ -79,10 +74,6 @@ public class SocketOutputStream
     @Override
     public void write(int value) throws IOException
     {
-        out++;
-        
-        hash += value;
-        
         output.write(value);
     }
 
