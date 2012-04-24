@@ -65,7 +65,10 @@ public abstract class Packet
     {
         try
         {
-            return (Packet)Packets.get(index).newInstance();
+            if (Packets.containsKey(index))
+            {
+                return (Packet)Packets.get(index).newInstance();
+            }
         }
         catch (NullPointerException ex)
         {
