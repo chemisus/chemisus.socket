@@ -30,7 +30,11 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Static Fields                            \*/
     /*\**********************************************************************\*/
-    private static volatile int Index = 0;
+    /**
+     * The running count of server threads running. Each thread will be named
+     * `server-N` where N is the value of Count.
+     */
+    private static volatile int Count = 0;
 
     /*\**********************************************************************\*/
     /*\                             Static Methods                           \*/
@@ -40,17 +44,45 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Fields                                   \*/
     /*\**********************************************************************\*/
+    /**
+     * The server that will be listening for connections.
+     */
     private final ServerSocket server;
-    
+
+    /**
+     * The thread that will be used to accept the connections.
+     */
     private Thread thread;
 
+    /**
+     * The value that will determine if the accepting thread should continue
+     * or not.
+     */
     private volatile boolean accepting = false;
-    
+
+    /**
+     * The objects that are listening to this server.
+     */
     private ConcurrentLinkedQueue<Callback> callbacks = new ConcurrentLinkedQueue<Callback>();
 
     /*\**********************************************************************\*/
     /*\                             Properties                               \*/
     /*\**********************************************************************\*/
+    /**
+     * Gets if this server is currently accepting connection requests or not.
+     * 
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The server is accepting connection requests.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The server is not accepting connection requests.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean isAccepting()
     {
         return accepting;
@@ -67,6 +99,18 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Private Methods                          \*/
     /*\**********************************************************************\*/
+    /**
+     * Accept connection requests until <code>isAccepting()</code> returns
+     * false.
+     * 
+     * This function will call <code>onStarted(this)</code> on each object that
+     * has added itself as a callback before the server starts to accept
+     * connection requests.
+     * 
+     * This function will call <code>onStopped(this)</code> on each object that
+     * has added itself as a callback after the server stops accepting
+     * connection requests.
+     */
     private void accept() 
     {
         for (Callback callback : callbacks)
@@ -116,21 +160,56 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
+    /**
+     * Add an object to the callback list.
+     * 
+     * @param callback The object that will be added to the callbacks list.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The object has been successfully added as a callback.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The object was not successfully added as a callback.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean addCallback(Callback callback)
     {
         return callbacks.add(callback);
     }
-    
+
+    /**
+     * Remove an object from the callback list.
+     * 
+     * @param callback The object that will removed from the callbacks list.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The object has been successfully removed as a callback.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The object was not successfully removed as a callback.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean removeCallback(Callback callback)
     {
         return callbacks.remove(callback);
     }
     
+    /**
+     * Start accepting connections.
+     */
     public void start()
     {
         accepting = true;
         
-        thread = new Thread("server-"+(Index++)) {
+        thread = new Thread("server-"+(Count++)) {
             @Override
             public void run() {
                 accept();
@@ -139,7 +218,10 @@ public class Server
 
         thread.start();
     }
-    
+
+    /**
+     * Stop accepting connections and close the socket.
+     */
     public void close() throws IOException
     {
         accepting = false;
