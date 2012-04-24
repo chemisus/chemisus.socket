@@ -77,11 +77,21 @@ public class Socket
     /*\**********************************************************************\*/
     /*\                             Properties                               \*/
     /*\**********************************************************************\*/
+    /**
+     * Get the number of packets that have been received by the socket.
+     * 
+     * @return <b>int</b> the number of packets received by the socket.
+     */
     public long getInCount()
     {
         return in[COUNT];
     }
 
+    /**
+     * Get the number of packets that have been sent by the socket.
+     * 
+     * @return <b>int</b> the number of packets that have been sent.
+     */
     public long getOutCount()
     {
         return out[COUNT];
@@ -90,6 +100,12 @@ public class Socket
     /*\**********************************************************************\*/
     /*\                             Constructors                             \*/
     /*\**********************************************************************\*/
+    /**
+     * Create a new socket with an established connection.
+     * 
+     * @param socket The connection to create a new socket from.
+     * @throws IOException 
+     */
     public Socket(java.net.Socket socket)
         throws IOException
     {
@@ -101,7 +117,16 @@ public class Socket
         
         input = new SocketInputStream(socket.getInputStream());
     }
-    
+
+    /**
+     * Connect to a server.
+     * 
+     * @param host The host name of the server to connect to
+     * @param port The port to connect on
+     * @throws UnknownHostException
+     * @throws IOException
+     * @throws ConnectException 
+     */
     public Socket(String host, int port)
         throws UnknownHostException, IOException, ConnectException
     {
@@ -116,6 +141,11 @@ public class Socket
     /*\**********************************************************************\*/
     /*\                             Protected Methods                        \*/
     /*\**********************************************************************\*/
+    /**
+     * Writes the head of the packet.
+     * 
+     * @throws IOException 
+     */
     protected void writeHead()
         throws IOException
     {
@@ -124,13 +154,24 @@ public class Socket
             output.writeByte(head);
         }
     }
-    
+
+    /**
+     * Writes the index of the packet.
+     * 
+     * @throws IOException 
+     */
     protected void writeIndex()
         throws IOException
     {
         output.writeLong(out[COUNT]++);
     }
-    
+
+    /**
+     * Writes the packet index and the actual packet.
+     * 
+     * @param packet The packet to write.
+     * @throws IOException 
+     */
     protected void writePacket(Packet packet)
         throws IOException
     {
@@ -139,6 +180,11 @@ public class Socket
         packet.write(output);
     }
 
+    /**
+     * Writes the tail of the packet.
+     * 
+     * @throws IOException 
+     */
     protected void writeTail()
         throws IOException
     {
@@ -147,7 +193,25 @@ public class Socket
             output.writeByte(tail);
         }
     }
-    
+
+    /**
+     * Reads the head of the packet. If the head of the packet is not present
+     * immediately, then it means that the previous packet was most likely
+     * corrupt.
+     * 
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The head was found with no problems.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>There was a problem finding the head.</td>
+     *  </tr>
+     * </table>
+     * @throws IOException 
+     */
     protected boolean readHead()
         throws IOException
     {
@@ -175,12 +239,46 @@ public class Socket
         return correct;
     }
     
+    /**
+     * Reads the index of the packet and compares to the number of packets that
+     * this socket has received so far.
+     * 
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The index of the packet matched.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The index of the packet did not match.</td>
+     *  </tr>
+     * </table>
+     * @throws IOException 
+     */
     protected boolean readIndex()
         throws IOException
     {
         return input.readLong() == in[COUNT]++;
     }
-    
+
+    /**
+     * Attempts to read the tail. If the tail did not match up, then there was
+     * a problem somewhere.
+     * 
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The tail was found with no problems.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>There was a problem finding the tail.</td>
+     *  </tr>
+     * </table>
+     * @throws IOException 
+     */
     protected boolean readTail()
         throws IOException
     {
@@ -191,12 +289,20 @@ public class Socket
             if ((byte)input.read() != tail)
             {
                 correct = false;
+                
+                break;
             }
         }
 
         return correct;
     }
     
+    /**
+     * Reads a packet from the socket.
+     * 
+     * @return <b>Packet</b> the packet that was read.
+     * @throws IOException 
+     */
     protected Packet readPacket()
         throws IOException
     {
@@ -220,6 +326,12 @@ public class Socket
         return packet;
     }
 
+    /**
+     * Creates an instance of a packet based on the index supplied.
+     * 
+     * @param index The index representing which packet to create.
+     * @return <b>Packet</b> the packet that was created.
+     */
     protected Packet instancePacket(int index)
     {
         try
@@ -254,6 +366,21 @@ public class Socket
     /*\**********************************************************************\*/
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
+    /**
+     * Register a Packet class with this socket.
+     * @param c The class of the packet to register.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The class was successfully added.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The class was not successfully added.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean registerPacket(Class c)
     {
         try
@@ -271,7 +398,13 @@ public class Socket
         
         return false;
     }
-    
+
+    /**
+     * Write a <b>Packet</b> to the socket.
+     * 
+     * @param packet the packet to write.
+     * @throws IOException 
+     */
     public void write(Packet packet) throws IOException
     {
         synchronized(write)
@@ -287,7 +420,13 @@ public class Socket
             output.flush();
         }
     }
-    
+
+    /**
+     * Read a <b>Packet</b> from the socket.
+     * 
+     * @return <b>Packet</b> the packet that was read.
+     * @throws IOException 
+     */
     public Packet read() throws IOException
     {
         synchronized(read)
@@ -318,7 +457,12 @@ public class Socket
             return packet;
         }
     }
-    
+
+    /**
+     * Close the socket.
+     * 
+     * @throws IOException 
+     */
     public void close() throws IOException
     {
         socket.close();
