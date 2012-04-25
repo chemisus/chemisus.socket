@@ -128,7 +128,7 @@ public class Socket
      * @throws ConnectException 
      */
     public Socket(String host, int port)
-        throws UnknownHostException, IOException, ConnectException
+        throws UnknownHostException, ConnectException, IOException
     {
         this(new java.net.Socket(host, port));
     }
