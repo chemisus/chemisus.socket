@@ -15,7 +15,11 @@ import java.util.logging.Logger;
 
 /**
  * <b>Packet</b> can read and write data between two network sockets using a
- * <b>Socket</b> object.
+ * <b>Socket</b> object. The purpose of this class is to easily read data in the
+ * same order that it was written. The <b>Socket</b> write the packet's index
+ * before the packet is sent, and then once the socket on the other end reads in
+ * the index, it will then create a new instance of that same packet. That
+ * packet will then read in all of its data.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
  * @version     0.1
@@ -31,6 +35,25 @@ public abstract class Packet
     /*\**********************************************************************\*/
     /*\                             Static Methods                           \*/
     /*\**********************************************************************\*/
+    /**
+     * Register a packet class globally.
+     * 
+     * Use this if you know that each socket is going to have access to this
+     * packet type.
+     * 
+     * @param c The class of the packet to register.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The class was successfully added.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The class was not successfully added.</td>
+     *  </tr>
+     * </table>
+     */
     public static boolean Register(Class c)
     {
         try
@@ -56,11 +79,24 @@ public abstract class Packet
         return false;
     }
     
+    /**
+     * Creates an instance of a packet based on the index that is read from the
+     * stream.
+     * 
+     * @param input The stream to read the index from.
+     * @return <b>Packet</b> the packet that was created.
+     */
     public static Packet Instance(InputStream input) throws IOException
     {
         return Instance(new DataInputStream(input).readInt());
     }
     
+    /**
+     * Creates an instance of a packet based on the index supplied.
+     * 
+     * @param index The index representing which packet to create.
+     * @return <b>Packet</b> the packet that was created.
+     */
     public static Packet Instance(int index)
     {
         try
@@ -95,20 +131,42 @@ public abstract class Packet
     /*\**********************************************************************\*/
     /*\                             Fields                                   \*/
     /*\**********************************************************************\*/
+    /**
+     * The output stream.
+     */
     private SocketOutputStream output;
-    
+
+    /**
+     * The input stream.
+     */
     private SocketInputStream input;
 
     /*\**********************************************************************\*/
     /*\                             Properties                               \*/
     /*\**********************************************************************\*/
+    /**
+     * Should return a unique index of the packet. No other packet classes
+     * should have this index if they are to be registered globally.
+     * 
+     * @return <b>int</b> the unique index of the packet class.
+     */
     public abstract int getPacketIndex();
-    
+
+    /**
+     * Get the output stream.
+     * 
+     * @return <b>SocketOutputStream</b> the output stream.
+     */
     private SocketOutputStream getOutput()
     {
         return output;
     }
     
+    /**
+     * Get the input stream.
+     * 
+     * @return <b>SocketInputStream</b> the input stream.
+     */
     private SocketInputStream getInput()
     {
         return input;
@@ -127,105 +185,235 @@ public abstract class Packet
     /*\**********************************************************************\*/
     /*\                             Protected Methods                        \*/
     /*\**********************************************************************\*/
+    /**
+     * Override this to write data.
+     * 
+     * @throws IOException 
+     */
     protected abstract void write() throws IOException;
 
+    /**
+     * Override this to read data.
+     * 
+     * @throws IOException 
+     */
     protected abstract void read() throws IOException;
-    
+
+    /**
+     * Write a Boolean value to the stream.
+     * 
+     * @param value The Boolean value to write.
+     * @throws IOException 
+     */
     protected void writeBoolean(Boolean value) throws IOException
     {
         getOutput().writeBoolean(value);
     }
     
+    /**
+     * Write a Byte value to the stream.
+     * 
+     * @param value The Byte value to write.
+     * @throws IOException 
+     */
     protected void writeByte(Byte value) throws IOException
     {
         getOutput().writeByte(value);
     }
 
+    /**
+     * Write a byte[] value to the stream.
+     * 
+     * @param value The byte[] value to write.
+     * @throws IOException 
+     */
     protected void writeBytes(byte[] value) throws IOException
     {
         getOutput().writeBytes(value);
     }
 
+    /**
+     * Write a Character value to the stream.
+     * 
+     * @param value The Character value to write.
+     * @throws IOException 
+     */
     protected void writeChar(Character value) throws IOException
     {
         getOutput().writeChar(value);
     }
 
+    /**
+     * Write a Double value to the stream.
+     * 
+     * @param value The Double value to write.
+     * @throws IOException 
+     */
     protected void writeDouble(Double value) throws IOException
     {
         getOutput().writeDouble(value);
     }
 
+    /**
+     * Write a Float value to the stream.
+     * 
+     * @param value The Float value to write.
+     * @throws IOException 
+     */
     protected void writeFloat(Float value) throws IOException
     {
         getOutput().writeFloat(value);
     }
 
+    /**
+     * Write a Integer value to the stream.
+     * 
+     * @param value The Integer value to write.
+     * @throws IOException 
+     */
     protected void writeInt(Integer value) throws IOException
     {
         getOutput().writeInt(value);
     }
 
+    /**
+     * Write a Long value to the stream.
+     * 
+     * @param value The Long value to write.
+     * @throws IOException 
+     */
     protected void writeLong(Long value) throws IOException
     {
         getOutput().writeLong(value);
     }
 
+    /**
+     * Write a Short value to the stream.
+     * 
+     * @param value The Short value to write.
+     * @throws IOException 
+     */
     protected void writeShort(Short value) throws IOException
     {
         getOutput().writeShort(value);
     }
 
+    /**
+     * Write a String value to the stream.
+     * 
+     * @param value The String value to write.
+     * @throws IOException 
+     */
     protected void writeString(String value) throws IOException
     {
         getOutput().writeString(value);
     }
 
+    /**
+     * Read a Boolean value from the stream.
+     * 
+     * @return The Boolean value read.
+     * @throws IOException 
+     */
     protected Boolean readBoolean() throws IOException
     {
         return getInput().readBoolean();
     }
     
+    /**
+     * Read a Byte value from the stream.
+     * 
+     * @return The Byte value read.
+     * @throws IOException 
+     */
     protected Byte readByte() throws IOException
     {
         return getInput().readByte();
     }
 
+    /**
+     * Read a byte[] value from the stream.
+     * 
+     * @return The byte[] value read.
+     * @throws IOException 
+     */
     protected byte[] readBytes() throws IOException
     {
         return getInput().readBytes();
     }
 
+    /**
+     * Read a Character value from the stream.
+     * 
+     * @return The Character value read.
+     * @throws IOException 
+     */
     protected Character readChar() throws IOException
     {
         return getInput().readChar();
     }
 
+    /**
+     * Read a Double value from the stream.
+     * 
+     * @return The Double value read.
+     * @throws IOException 
+     */
     protected Double readDouble() throws IOException
     {
         return getInput().readDouble();
     }
 
+    /**
+     * Read a Float value from the stream.
+     * 
+     * @return The Float value read.
+     * @throws IOException 
+     */
     protected Float readFloat() throws IOException
     {
         return getInput().readFloat();
     }
 
+    /**
+     * Read a Integer value from the stream.
+     * 
+     * @return The Integer value read.
+     * @throws IOException 
+     */
     protected Integer readInt() throws IOException
     {
         return getInput().readInt();
     }
 
+    /**
+     * Read a Long value from the stream.
+     * 
+     * @return The Long value read.
+     * @throws IOException 
+     */
     protected Long readLong() throws IOException
     {
         return getInput().readLong();
     }
 
+    /**
+     * Read a Short value from the stream.
+     * 
+     * @return The Short value read.
+     * @throws IOException 
+     */
     protected Short readShort() throws IOException
     {
         return getInput().readShort();
     }
 
+    /**
+     * Read a String value from the stream.
+     * 
+     * @return The String value read.
+     * @throws IOException 
+     */
     protected String readString() throws IOException
     {
         return getInput().readString();
@@ -234,6 +422,12 @@ public abstract class Packet
     /*\**********************************************************************\*/
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
+    /**
+     * Write the packet data to the stream.
+     * 
+     * @param output The output stream to write the packet data to
+     * @throws IOException 
+     */
     public final void write(SocketOutputStream output) throws IOException
     {
         this.output = output;
@@ -241,6 +435,12 @@ public abstract class Packet
         write();
     }
     
+    /**
+     * Read packet data from the stream.
+     * 
+     * @param input The packet to read data from.
+     * @throws IOException 
+     */
     public final void read(SocketInputStream input) throws IOException
     {
         this.input = input;
