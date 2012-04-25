@@ -32,7 +32,7 @@ public class Session
     /*\**********************************************************************\*/
     /*\                             Static Fields                            \*/
     /*\**********************************************************************\*/
-    private static volatile int Index = 0;
+    private static volatile int Count = 0;
 
     /*\**********************************************************************\*/
     /*\                             Static Methods                           \*/
@@ -51,6 +51,21 @@ public class Session
     /*\**********************************************************************\*/
     /*\                             Properties                               \*/
     /*\**********************************************************************\*/
+    /**
+     * Gets if the session is currently receiving data or not.
+     * 
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The session is receiving data.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The session is not receiving data.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean isReceiving()
     {
         return receiving;
@@ -59,12 +74,24 @@ public class Session
     /*\**********************************************************************\*/
     /*\                             Constructors                             \*/
     /*\**********************************************************************\*/
+    /**
+     * Create a new session with an established connection.
+     */
     public Session(java.net.Socket socket)
         throws IOException
     {
         super(socket);
     }
-    
+
+    /**
+     * Create a new session by connecting to a server.
+     * 
+     * @param host The host name of the server to connect to.
+     * @param port The port to connect to the server on.
+     * @throws UnknownHostException
+     * @throws IOException
+     * @throws ConnectException 
+     */
     public Session(String host, int port)
         throws UnknownHostException, IOException, ConnectException
     {
@@ -79,6 +106,18 @@ public class Session
     /*\**********************************************************************\*/
     /*\                             Protected Methods                        \*/
     /*\**********************************************************************\*/
+    /**
+     * Receive packets from the server until <code>isReceiving()</code> returns
+     * false.
+     * 
+     * This function will call <code>onStarted(this)</code> on each object that
+     * has added itself as a callback before the session starts to receiving
+     * packets.
+     * 
+     * This function will call <code>onStopped(this)</code> on each object that
+     * has added itself as a callback after the session stops receiving 
+     * packets.
+     */
     protected void receive()
     {
         for (Callback callback : callbacks)
@@ -116,21 +155,56 @@ public class Session
     /*\**********************************************************************\*/
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
+    /**
+     * Add an object to the callback list.
+     * 
+     * @param callback The object that will be added to the callbacks list.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The object has been successfully added as a callback.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The object was not successfully added as a callback.</td>
+     *  </tr>
+     * </table>
+     */
     public boolean addCallback(Callback callback)
     {
         return callbacks.add(callback);
     }
-    
-    public boolean removeCallback(Callback callback, Class ... packets)
+
+    /**
+     * Remove an object from the callback list.
+     * 
+     * @param callback The object that will removed from the callbacks list.
+     * @return <b>boolean</b>
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The object has been successfully removed as a callback.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The object was not successfully removed as a callback.</td>
+     *  </tr>
+     * </table>
+     */
+    public boolean removeCallback(Callback callback)
     {
         return callbacks.remove(callback);
     }
-    
+
+    /**
+     * Start receiving packets.
+     */
     public void start()
     {
         receiving = true;
         
-        thread = new Thread("session-"+(Index++)) {
+        thread = new Thread("session-"+(Count++)) {
             @Override
             public void run() {
                 receive();
@@ -139,13 +213,13 @@ public class Session
         
         thread.start();
     }
-    
-    @Override
-    public void close() throws IOException
+
+    /**
+     * Stop receiving packets.
+     */
+    public void stop()
     {
         receiving = false;
-        
-        super.close();
         
         try
         {
@@ -157,6 +231,19 @@ public class Session
                 Level.SEVERE, null, ex
             );
         }
+    }
+
+    /**
+     * Stop receiving packets and close the socket.
+     * 
+     * @throws IOException 
+     */
+    @Override
+    public void close() throws IOException
+    {
+        stop();
+        
+        super.close();
     }
 
     /*\**********************************************************************\*/
