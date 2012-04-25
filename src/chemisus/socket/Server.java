@@ -47,7 +47,7 @@ public class Server
     /**
      * The server that will be listening for connections.
      */
-    private final ServerSocket server;
+    private volatile ServerSocket server;
 
     /**
      * The thread that will be used to accept the connections.
@@ -91,10 +91,7 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Constructors                             \*/
     /*\**********************************************************************\*/
-    public Server(int port) throws IOException
-    {
-        server = new ServerSocket(port);
-    }
+
 
     /*\**********************************************************************\*/
     /*\                             Private Methods                          \*/
@@ -195,18 +192,23 @@ public class Server
     /**
      * Start accepting connections.
      */
-    public void start()
+    public void start(int port) throws IOException
     {
-        accepting = true;
-        
-        thread = new Thread("server-"+(Count++)) {
-            @Override
-            public void run() {
-                accept();
-            }
-        };
+        if (!isAccepting())
+        {
+            server = new ServerSocket(port);
 
-        thread.start();
+            accepting = true;
+
+            thread = new Thread("server-"+(Count++)) {
+                @Override
+                public void run() {
+                    accept();
+                }
+            };
+
+            thread.start();
+        }
     }
 
     /**
@@ -214,17 +216,20 @@ public class Server
      */
     public void stop()
     {
-        accepting = false;
+        if (isAccepting())
+        {
+            accepting = false;
 
-        try
-        {
-            thread.join();
-        }
-        catch (InterruptedException ex)
-        {
-            Logger.getLogger(Socket.class.getName()).log(
-                Level.SEVERE, null, ex
-            );
+            try
+            {
+                thread.join();
+            }
+            catch (InterruptedException ex)
+            {
+                Logger.getLogger(Socket.class.getName()).log(
+                    Level.SEVERE, null, ex
+                );
+            }
         }
     }
 
