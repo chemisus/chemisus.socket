@@ -106,8 +106,7 @@ public class Socket
      * @param socket The connection to create a new socket from.
      * @throws IOException 
      */
-    public Socket(java.net.Socket socket)
-        throws IOException
+    public Socket(java.net.Socket socket) throws IOException
     {
         this.socket = socket;
         
