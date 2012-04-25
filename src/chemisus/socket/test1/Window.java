@@ -453,7 +453,7 @@ public class Window extends javax.swing.JFrame {
                 {
                     ConcurrentLinkedDeque<Thread> threads = new ConcurrentLinkedDeque<>();
 
-                    for (int i = 0; i < 1500; i++)
+                    for (int i = 0; i < 15000; i++)
                     {
                         threads.add(new Thread() {
                             @Override
