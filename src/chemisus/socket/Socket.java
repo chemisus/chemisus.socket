@@ -312,7 +312,7 @@ public class Socket
         
         if (packet == null)
         {
-            packet = Packet.Instance(input.readInt());
+            packet = Packet.Instance(index);
 
             if (packet == null)
             {
