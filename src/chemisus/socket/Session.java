@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 
 
 /**
- * <b>Session</b>
+ * The {@link Session} class extends the {@link Socket} class, and includes
+ * the ability to asynchronously receive any {@link Packet}s.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
  * @version     0.1
@@ -54,7 +55,7 @@ public class Session
     /**
      * Gets if the session is currently receiving data or not.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -106,14 +107,14 @@ public class Session
     /*\                             Protected Methods                        \*/
     /*\**********************************************************************\*/
     /**
-     * Receive packets from the server until <code>isReceiving()</code> returns
+     * Receive packets from the server until {@link isReceiving()} returns
      * false.
      * 
-     * This function will call <code>onStarted(this)</code> on each object that
+     * This function will call {@link onStarted(this)} on each object that
      * has added itself as a callback before the session starts to receiving
      * packets.
      * 
-     * This function will call <code>onStopped(this)</code> on each object that
+     * This function will call {@link onStopped(this)} on each object that
      * has added itself as a callback after the session stops receiving 
      * packets.
      */
@@ -158,7 +159,7 @@ public class Session
      * Add an object to the callback list.
      * 
      * @param callback The object that will be added to the callbacks list.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -179,7 +180,7 @@ public class Session
      * Remove an object from the callback list.
      * 
      * @param callback The object that will removed from the callbacks list.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>

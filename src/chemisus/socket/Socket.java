@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 
 /**
- * <b>Socket</b> accepts or creates a network connection. This socket can then
- * read and write <b>Packet</b>s.
+ * The {@link Socket} class connect to a host, or accept incoming connections,
+ * then write and read {@link Packet} objects across the connection.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
  * @version     0.1
@@ -80,7 +80,7 @@ public class Socket
     /**
      * Get the number of packets that have been received by the socket.
      * 
-     * @return <b>int</b> the number of packets received by the socket.
+     * @return {@link int} the number of packets received by the socket.
      */
     public long getInCount()
     {
@@ -90,7 +90,7 @@ public class Socket
     /**
      * Get the number of packets that have been sent by the socket.
      * 
-     * @return <b>int</b> the number of packets that have been sent.
+     * @return {@link int} the number of packets that have been sent.
      */
     public long getOutCount()
     {
@@ -198,7 +198,7 @@ public class Socket
      * immediately, then it means that the previous packet was most likely
      * corrupt.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -242,7 +242,7 @@ public class Socket
      * Reads the index of the packet and compares to the number of packets that
      * this socket has received so far.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -265,7 +265,7 @@ public class Socket
      * Attempts to read the tail. If the tail did not match up, then there was
      * a problem somewhere.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -299,7 +299,7 @@ public class Socket
     /**
      * Reads a packet from the socket.
      * 
-     * @return <b>Packet</b> the packet that was read.
+     * @return {@link Packet} the packet that was read.
      * @throws IOException 
      */
     protected Packet readPacket()
@@ -329,7 +329,7 @@ public class Socket
      * Creates an instance of a packet based on the index supplied.
      * 
      * @param index The index representing which packet to create.
-     * @return <b>Packet</b> the packet that was created.
+     * @return {@link Packet} the packet that was created.
      */
     protected Packet instancePacket(int index)
     {
@@ -368,7 +368,7 @@ public class Socket
     /**
      * Register a Packet class with this socket.
      * @param c The class of the packet to register.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -405,7 +405,7 @@ public class Socket
     }
 
     /**
-     * Write a <b>Packet</b> to the socket.
+     * Write a {@link Packet} to the socket.
      * 
      * @param packet the packet to write.
      * @throws IOException 
@@ -427,9 +427,9 @@ public class Socket
     }
 
     /**
-     * Read a <b>Packet</b> from the socket.
+     * Read a {@link Packet} from the socket.
      * 
-     * @return <b>Packet</b> the packet that was read.
+     * @return {@link Packet} the packet that was read.
      * @throws IOException 
      */
     public Packet read() throws IOException

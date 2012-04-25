@@ -14,12 +14,9 @@ import java.util.logging.Logger;
 
 
 /**
- * <b>Packet</b> can read and write data between two network sockets using a
- * <b>Socket</b> object. The purpose of this class is to easily read data in the
- * same order that it was written. The <b>Socket</b> write the packet's index
- * before the packet is sent, and then once the socket on the other end reads in
- * the index, it will then create a new instance of that same packet. That
- * packet will then read in all of its data.
+ * The {@link Packet} class will be used by the {@link Socket} or
+ * {@link Session} class to read and write data across a connection, as well as
+ * making sure that the data is organized and easily used by other classes.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
  * @version     0.1
@@ -42,7 +39,7 @@ public abstract class Packet
      * packet type.
      * 
      * @param c The class of the packet to register.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -90,7 +87,7 @@ public abstract class Packet
      * stream.
      * 
      * @param input The stream to read the index from.
-     * @return <b>Packet</b> the packet that was created.
+     * @return {@link Packet} the packet that was created.
      */
     public static Packet Instance(InputStream input) throws IOException
     {
@@ -101,7 +98,7 @@ public abstract class Packet
      * Creates an instance of a packet based on the index supplied.
      * 
      * @param index The index representing which packet to create.
-     * @return <b>Packet</b> the packet that was created.
+     * @return {@link Packet} the packet that was created.
      */
     public static Packet Instance(int index)
     {
@@ -154,14 +151,14 @@ public abstract class Packet
      * Should return a unique index of the packet. No other packet classes
      * should have this index if they are to be registered globally.
      * 
-     * @return <b>int</b> the unique index of the packet class.
+     * @return {@link int} the unique index of the packet class.
      */
     public abstract int getPacketIndex();
 
     /**
      * Get the output stream.
      * 
-     * @return <b>SocketOutputStream</b> the output stream.
+     * @return {@link SocketOutputStream} the output stream.
      */
     private SocketOutputStream getOutput()
     {
@@ -171,7 +168,7 @@ public abstract class Packet
     /**
      * Get the input stream.
      * 
-     * @return <b>SocketInputStream</b> the input stream.
+     * @return {@link SocketInputStream} the input stream.
      */
     private SocketInputStream getInput()
     {

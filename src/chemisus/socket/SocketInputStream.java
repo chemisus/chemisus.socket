@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 
 /**
- * <b>SocketInputStream</b> reads the data sent by <b>SocketOutputStream</b>
+ * {@link SocketInputStream} reads the data sent by {@link SocketOutputStream}
  * through a network socket.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
@@ -47,7 +47,7 @@ public class SocketInputStream
     /**
      * Get the amount of bytes available in the stream for reading.
      * 
-     * @return <b>int</b> The amount of bytes available in the stream for
+     * @return {@link int} The amount of bytes available in the stream for
      * reading.
      * @throws IOException 
      */
@@ -60,7 +60,7 @@ public class SocketInputStream
     /**
      * Gets if marking is supported by the stream.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -100,9 +100,9 @@ public class SocketInputStream
     /*\                             Public Methods                           \*/
     /*\**********************************************************************\*/
     /**
-     * Reads a <b>byte</b> from the stream.
+     * Reads a {@link byte} from the stream.
      * 
-     * @return <b>int</b> the value of the byte that was read from the stream.
+     * @return {@link int} the value of the byte that was read from the stream.
      * @throws IOException 
      */
     @Override
@@ -112,9 +112,9 @@ public class SocketInputStream
     }
 
     /**
-     * Reads a <b>Boolean</b> from the stream.
+     * Reads a {@link Boolean} from the stream.
      * 
-     * @return <b>Boolean</b> the value of the Boolean read from the stream.
+     * @return {@link Boolean} the value of the Boolean read from the stream.
      * @throws IOException 
      */
     public Boolean readBoolean() throws IOException
@@ -123,9 +123,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Byte</b> from the stream.
+     * Reads a {@link Byte} from the stream.
      * 
-     * @return <b>Byte</b> the value of the Byte read from the stream.
+     * @return {@link Byte} the value of the Byte read from the stream.
      * @throws IOException 
      */
     public Byte readByte() throws IOException
@@ -134,13 +134,13 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>byte[]</b> from the stream.
+     * Reads a {@link byte[]} from the stream.
      * 
-     * Since <b>SocketOutputStream</b> will send the size of the byte array 
+     * Since {@link SocketOutputStream} will send the size of the byte array 
      * before the bytes themselves, this function will automatically read in
      * that size <i>n</i> first, then read in the following <i>n</i> bytes.
      * 
-     * @return <b>byte[]</b> the value of the byte[] read from the stream.
+     * @return {@link byte[]} the value of the byte[] read from the stream.
      * @throws IOException 
      */
     public byte[] readBytes() throws IOException
@@ -153,9 +153,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Character</b> from the stream.
+     * Reads a {@link Character} from the stream.
      * 
-     * @return <b>Character</b> the value of the Character read from the stream.
+     * @return {@link Character} the value of the Character read from the stream.
      * @throws IOException 
      */
     public Character readChar() throws IOException
@@ -164,9 +164,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Double</b> from the stream.
+     * Reads a {@link Double} from the stream.
      * 
-     * @return <b>Double</b> the value of the Double read from the stream.
+     * @return {@link Double} the value of the Double read from the stream.
      * @throws IOException 
      */
     public Double readDouble() throws IOException
@@ -175,9 +175,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Float</b> from the stream.
+     * Reads a {@link Float} from the stream.
      * 
-     * @return <b>Float</b> the value of the Float read from the stream.
+     * @return {@link Float} the value of the Float read from the stream.
      * @throws IOException 
      */
     public Float readFloat() throws IOException
@@ -186,9 +186,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Integer</b> from the stream.
+     * Reads a {@link Integer} from the stream.
      * 
-     * @return <b>Integer</b> the value of the Integer read from the stream.
+     * @return {@link Integer} the value of the Integer read from the stream.
      * @throws IOException 
      */
     public Integer readInt() throws IOException
@@ -197,9 +197,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Long</b> from the stream.
+     * Reads a {@link Long} from the stream.
      * 
-     * @return <b>Long</b> the value of the Long read from the stream.
+     * @return {@link Long} the value of the Long read from the stream.
      * @throws IOException 
      */
     public Long readLong() throws IOException
@@ -208,9 +208,9 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>Short</b> from the stream.
+     * Reads a {@link Short} from the stream.
      * 
-     * @return <b>Short</b> the value of the Short read from the stream.
+     * @return {@link Short} the value of the Short read from the stream.
      * @throws IOException 
      */
     public Short readShort() throws IOException
@@ -219,14 +219,14 @@ public class SocketInputStream
     }
     
     /**
-     * Reads a <b>String</b> from the stream.
+     * Reads a {@link String} from the stream.
      * 
      * This function returns a new string by calling
-     * <code>new String(readBytes())</code>. Since <b>SocketOutputStream</b>
+     * {@link new String(readBytes())}. Since {@link SocketOutputStream}
      * will send the size of the string before the string itself, this function
      * will automatically read in that size first.
      * 
-     * @return <b>String</b> the value of the String read from the stream.
+     * @return {@link String} the value of the String read from the stream.
      * @throws IOException 
      */
     public String readString() throws IOException
@@ -249,7 +249,7 @@ public class SocketInputStream
      * Marks the current position in the stream until the <i>limit<i> number of
      * bytes have been read from the stream.
      * 
-     * This function saves a spot in the stream, and when <code>reset()</code>
+     * This function saves a spot in the stream, and when {@link reset()}
      * is called on the stream, it will go back to the position.
      * 
      * If however, when <i>limit<i> number of bytes have been read from the
@@ -268,7 +268,7 @@ public class SocketInputStream
      * Skips <i>n</i> bytes in the stream.
      * 
      * @param n The number of bytes to skip in the stream.
-     * @return <b>long</b> The actual number of bytes skipped.
+     * @return {@link long} The actual number of bytes skipped.
      * @throws IOException 
      */
     @Override
@@ -281,7 +281,7 @@ public class SocketInputStream
      * Skips <i>n</i> bytes in the stream.
      * 
      * @param n The number of bytes to skip in the stream.
-     * @return <b>long</b> The actual number of bytes skipped.
+     * @return {@link long} The actual number of bytes skipped.
      * @throws IOException 
      */
     public int skipBytes(int n) throws IOException

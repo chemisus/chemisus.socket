@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 
 /**
- * <b>Server</b> opens a port for incoming connection requests.
+ * {@link Server} opens a port for incoming connection requests.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
  * @version     0.1
@@ -71,7 +71,7 @@ public class Server
     /**
      * Gets if this server is currently accepting connection requests or not.
      * 
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -100,34 +100,27 @@ public class Server
     /*\                             Private Methods                          \*/
     /*\**********************************************************************\*/
     /**
-     * Accept connection requests until <code>isAccepting()</code> returns
+     * Accept connection requests until {@link isAccepting()} returns
      * false.
      * 
-     * This function will call <code>onStarted(this)</code> on each object that
-     * has added itself as a callback before the server starts to accept
-     * connection requests.
+     * <p>This function will trigger {@link OnStart()} before it starts accepting
+     * connections requests.</p>
      * 
-     * This function will call <code>onStopped(this)</code> on each object that
-     * has added itself as a callback after the server stops accepting
-     * connection requests.
+     * <p>This function will trigger {@link OnStop()} after it stops accepting
+     * connection requests.</p>
+     * 
+     * <p>This function will trigger {@link OnRequest()} when a connection has
+     * been requested.</p>
      */
     private void accept() 
     {
-        for (Callback callback : callbacks)
-        {
-            callback.onStarted(this);
-        }
+        OnStart();
         
         while (accepting)
         {
             try
             {
-                java.net.Socket socket = server.accept();
-                
-                for (Callback callback : callbacks)
-                {
-                    callback.onRequest(this, socket);
-                }
+                OnRequest(server.accept());
             }
             catch (SocketException ex)
             {
@@ -145,11 +138,8 @@ public class Server
                 );
             }
         }
-        
-        for (Callback callback : callbacks)
-        {
-            callback.onStopped(this);
-        }
+
+        OnStop();
     }
 
     /*\**********************************************************************\*/
@@ -164,7 +154,7 @@ public class Server
      * Add an object to the callback list.
      * 
      * @param callback The object that will be added to the callbacks list.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -185,7 +175,7 @@ public class Server
      * Remove an object from the callback list.
      * 
      * @param callback The object that will removed from the callbacks list.
-     * @return <b>boolean</b>
+     * @return {@link boolean}
      * <table>
      *  <tr>
      *      <td><i>true</i></td>
@@ -251,7 +241,29 @@ public class Server
     /*\**********************************************************************\*/
     /*\                             Event Triggers                           \*/
     /*\**********************************************************************\*/
-
+    private void OnStart()
+    {
+        for (Callback callback : callbacks)
+        {
+            callback.onStarted(this);
+        }
+    }
+    
+    private void OnStop()
+    {
+        for (Callback callback : callbacks)
+        {
+            callback.onStopped(this);
+        }
+    }
+    
+    private void OnRequest(java.net.Socket socket)
+    {
+        for (Callback callback : callbacks)
+        {
+            callback.onRequest(this, socket);
+        }
+    }
 
     /*\**********************************************************************\*/
     /*\                             Event Handlers                           \*/

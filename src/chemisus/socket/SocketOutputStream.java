@@ -11,8 +11,8 @@ import java.io.OutputStream;
 
 
 /**
- * <b>SocketOutputStream</b> will handle writing primitive data types or strings
- * through a <b>Socket</b> which will then be read by <b>SocketInputStream</b>
+ * {@link SocketOutputStream} will handle writing primitive data types or strings
+ * through a {@link Socket} which will then be read by {@link SocketInputStream}
  * on the other side.
  * 
  * @author      Terrence Howard <chemisus@gmail.com>
@@ -74,8 +74,8 @@ public class SocketOutputStream
     /**
      * Writes a byte to the stream.
      * 
-     * Note that the parameter is an <b>int</b> (bigger size than a byte). This
-     * function will write a <b>byte</b> to the stream.
+     * Note that the parameter is an {@link int} (bigger size than a byte). This
+     * function will write a {@link byte} to the stream.
      * 
      * @param value The value of the byte to write to the stream.
      * @throws IOException 
@@ -89,9 +89,9 @@ public class SocketOutputStream
     /**
      * Writes several bytes to the stream.
      * 
-     * This function calls <code>writeInt(value.length)</code> before writing
-     * the bytes to the stream. This extra <b>int</b> is automatically read by
-     * the <code>SocketInputStream.readInt()</code> on the other end of the
+     * This function calls {@link writeInt(value.length)} before writing
+     * the bytes to the stream. This extra {@link int} is automatically read by
+     * the {@link SocketInputStream.readInt()} on the other end of the
      * stream.
      * 
      * @param value The array of bytes to write from.
@@ -110,7 +110,7 @@ public class SocketOutputStream
     /**
      * Writes an array of bytes to the stream.
      * 
-     * This function calls <code>write(value, 0, value.length)</code>;
+     * This function calls {@link write(value, 0, value.length)};
      * 
      * @param value The array of bytes to write to the stream.
      * @throws IOException 
@@ -122,9 +122,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Boolean</b> to the stream.
+     * Writes a {@link Boolean} to the stream.
      * 
-     * @param value The <b>Boolean</b> value to write to the stream.
+     * @param value The {@link Boolean} value to write to the stream.
      * @throws IOException 
      */
     public void writeBoolean(Boolean value) throws IOException
@@ -133,9 +133,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Byte</b> to the stream.
+     * Writes a {@link Byte} to the stream.
      * 
-     * @param value The <b>Byte</b> value to write to the stream.
+     * @param value The {@link Byte} value to write to the stream.
      * @throws IOException 
      */
     public void writeByte(Byte value) throws IOException
@@ -144,15 +144,15 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>byte[]</b> to the stream.
+     * Writes a {@link byte[]} to the stream.
      * 
-     * This function calls <code>writeBytes(value.getBytes())</code>, which
+     * This function calls {@link writeBytes(value.getBytes())}, which
      * means that the size of the string will be written to the stream before
-     * the actual bytes of the array. This extra <b>int</b> will be
-     * automatically read by the <b>SocketInputStream</b> when using
-     * <code>readBytes()</code>.
+     * the actual bytes of the array. This extra {@link int} will be
+     * automatically read by the {@link SocketInputStream} when using
+     * {@link readBytes()}.
      * 
-     * @param value The <b>byte[]</b> value to write to the stream.
+     * @param value The {@link byte[]} value to write to the stream.
      * @throws IOException 
      */
     public void writeBytes(byte[] value) throws IOException
@@ -161,9 +161,9 @@ public class SocketOutputStream
     }
     
     /**
-     * Writes a <b>Character</b> to the stream.
+     * Writes a {@link Character} to the stream.
      * 
-     * @param value The <b>Character</b> value to write to the stream.
+     * @param value The {@link Character} value to write to the stream.
      * @throws IOException 
      */
     public void writeChar(Character value) throws IOException
@@ -172,9 +172,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Double</b> to the stream.
+     * Writes a {@link Double} to the stream.
      * 
-     * @param value The <b>Double</b> value to write to the stream.
+     * @param value The {@link Double} value to write to the stream.
      * @throws IOException 
      */
     public void writeDouble(Double value) throws IOException
@@ -183,9 +183,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Float</b> to the stream.
+     * Writes a {@link Float} to the stream.
      * 
-     * @param value The <b>Float</b> value to write to the stream.
+     * @param value The {@link Float} value to write to the stream.
      * @throws IOException 
      */
     public void writeFloat(Float value) throws IOException
@@ -194,9 +194,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Integer</b> to the stream.
+     * Writes a {@link Integer} to the stream.
      * 
-     * @param value The <b>Integer</b> value to write to the stream.
+     * @param value The {@link Integer} value to write to the stream.
      * @throws IOException 
      */
     public void writeInt(Integer value) throws IOException
@@ -205,9 +205,9 @@ public class SocketOutputStream
     }
     
     /**
-     * Writes a <b>Long</b> to the stream.
+     * Writes a {@link Long} to the stream.
      * 
-     * @param value The <b>Long</b> value to write to the stream.
+     * @param value The {@link Long} value to write to the stream.
      * @throws IOException 
      */
     public void writeLong(Long value) throws IOException
@@ -216,9 +216,9 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>Short</b> to the stream.
+     * Writes a {@link Short} to the stream.
      * 
-     * @param value The <b>Short</b> value to write to the stream.
+     * @param value The {@link Short} value to write to the stream.
      * @throws IOException 
      */
     public void writeShort(Short value) throws IOException
@@ -227,15 +227,15 @@ public class SocketOutputStream
     }
 
     /**
-     * Writes a <b>String</b> to the stream.
+     * Writes a {@link String} to the stream.
      * 
-     * This function calls <code>writeBytes(value.getBytes())</code>, which
+     * This function calls {@link writeBytes(value.getBytes())}, which
      * means that the size of the string will be written to the stream before
-     * the actual bytes of the string. This extra <b>int</b> will be
-     * automatically read by the <b>SocketInputStream</b> when using
-     * <code>readString()</code>.
+     * the actual bytes of the string. This extra {@link int} will be
+     * automatically read by the {@link SocketInputStream} when using
+     * {@link readString()}.
      * 
-     * @param value The <b>String</b> value to write to the stream.
+     * @param value The {@link String} value to write to the stream.
      * @throws IOException 
      */
     public void writeString(String value) throws IOException
