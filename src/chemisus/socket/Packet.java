@@ -69,13 +69,19 @@ public abstract class Packet
 
             return true;
         }
-        catch (InstantiationException | IllegalAccessException ex)
+        catch (InstantiationException ex)
         {
             Logger.getLogger(Packet.class.getName()).log(
                 Level.SEVERE, null, ex
             );
         }
-        
+        catch (IllegalAccessException ex)
+        {
+            Logger.getLogger(Packet.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+        }
+
         return false;
     }
     

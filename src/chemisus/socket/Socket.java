@@ -389,7 +389,13 @@ public class Socket
             
             return true;
         }
-        catch (InstantiationException | IllegalAccessException ex)
+        catch (InstantiationException ex)
+        {
+            Logger.getLogger(Socket.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+        }
+        catch (IllegalAccessException ex)
         {
             Logger.getLogger(Socket.class.getName()).log(
                 Level.SEVERE, null, ex
