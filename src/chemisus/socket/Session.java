@@ -77,8 +77,7 @@ public class Session
     /**
      * Create a new session with an established connection.
      */
-    public Session(java.net.Socket socket)
-        throws IOException
+    public Session(java.net.Socket socket) throws IOException
     {
         super(socket);
     }
