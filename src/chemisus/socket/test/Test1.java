@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package chemisus.socket.test1;
+package chemisus.socket.test;
 
 import chemisus.socket.Packet;
 import chemisus.socket.Server;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author chemisus
  */
-public class Window extends javax.swing.JFrame {
+public class Test1 extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
@@ -43,13 +43,13 @@ public class Window extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Test1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Test1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Test1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Test1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -59,7 +59,7 @@ public class Window extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Window().setVisible(true);
+                new Test1().setVisible(true);
             }
         });
     }
@@ -67,7 +67,7 @@ public class Window extends javax.swing.JFrame {
     /**
      * Creates new form Window
      */
-    public Window() {
+    public Test1() {
         initComponents();
     }
 
@@ -296,7 +296,7 @@ public class Window extends javax.swing.JFrame {
                                 
                                 btnTestStart.setEnabled(true);
                                 
-                                Window.this.session = null;
+                                Test1.this.session = null;
                             }
 
                             @Override
@@ -306,7 +306,7 @@ public class Window extends javax.swing.JFrame {
                         
                         session.start();
                     } catch (IOException ex) {
-                        Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
@@ -329,7 +329,7 @@ public class Window extends javax.swing.JFrame {
             
             server.start();
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -343,7 +343,7 @@ public class Window extends javax.swing.JFrame {
                 session.close();
             }
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -352,7 +352,7 @@ public class Window extends javax.swing.JFrame {
         try {
             session.write(new PacketTest());
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -392,9 +392,9 @@ public class Window extends javax.swing.JFrame {
             
             btnClientSend.setEnabled(true);
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -403,7 +403,7 @@ public class Window extends javax.swing.JFrame {
         try {
             client.close();
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -412,7 +412,7 @@ public class Window extends javax.swing.JFrame {
         try {
             client.write(new PacketTest());
         } catch (IOException ex) {
-            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -432,7 +432,7 @@ public class Window extends javax.swing.JFrame {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -475,14 +475,14 @@ public class Window extends javax.swing.JFrame {
                         try {
                             thread.join();
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                     
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 
@@ -508,7 +508,7 @@ public class Window extends javax.swing.JFrame {
                 try {
                     thread.join();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Test1.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }.start();

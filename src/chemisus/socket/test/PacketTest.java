@@ -3,7 +3,7 @@
  * @copyright   Copyright (c) 2012, Terrence Howard
  * @package     chemisus.socket.test;
  */
-package chemisus.socket.test1;
+package chemisus.socket.test;
 
 import chemisus.socket.Packet;
 import java.io.IOException;
