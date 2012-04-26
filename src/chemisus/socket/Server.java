@@ -87,26 +87,6 @@ public class Server
     {
         return accepting;
     }
-    
-    /**
-     * Gets if this server is currently open or not.
-     * 
-     * @return {@link boolean}
-     * <table>
-     *  <tr>
-     *      <td><i>true</i></td>
-     *      <td>The server is open.</td>
-     *  </tr>
-     *  <tr>
-     *      <td><i>false</i></td>
-     *      <td>The server is closed.</td>
-     *  </tr>
-     * </table>
-     */
-    public boolean isOpen()
-    {
-        return server != null && !server.isClosed();
-    }
 
     /*\**********************************************************************\*/
     /*\                             Constructors                             \*/
@@ -212,10 +192,12 @@ public class Server
     /**
      * Start accepting connections.
      */
-    public void start()
+    public void start(int port) throws IOException
     {
         if (!isAccepting())
         {
+            server = new ServerSocket(port);
+            
             accepting = true;
 
             thread = new Thread("server-"+(Count++)) {
@@ -232,11 +214,13 @@ public class Server
     /**
      * Stop accepting connections.
      */
-    public void stop()
+    public void stop() throws IOException
     {
         if (isAccepting())
         {
             accepting = false;
+        
+            server.close();
 
             try
             {
@@ -249,29 +233,6 @@ public class Server
                 );
             }
         }
-    }
-
-    /**
-     * Opens the server for connections.
-     * @param port
-     * @throws IOException 
-     */
-    public void open(int port) throws IOException
-    {
-        if (!isOpen())
-        {
-            server = new ServerSocket(port);
-        }
-    }
-
-    /**
-     * Stop accepting connections and close the socket.
-     */
-    public void close() throws IOException
-    {
-        stop();
-        
-        server.close();
     }
 
     /*\**********************************************************************\*/
