@@ -146,8 +146,8 @@ public class SocketInputStream
     public byte[] readBytes() throws IOException
     {
         byte[] bytes = new byte[readInt()];
-        
-        input.read(bytes, 0, bytes.length);
+
+        input.readFully(bytes, 0, bytes.length);
         
         return bytes;
     }
