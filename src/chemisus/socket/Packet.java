@@ -51,18 +51,21 @@ public abstract class Packet
      *  </tr>
      * </table>
      */
-    public static boolean Register(Class c)
+    public static boolean Register(Class ... classes)
     {
         try
         {
-            int index = ((Packet)c.newInstance()).getPacketIndex();
-
-            if (Packets.containsKey(index) || Packets.containsValue(c))
+            for (Class c : classes)
             {
-                return false;
-            }
+                int index = ((Packet)c.newInstance()).getPacketIndex();
 
-            Packets.put(index, c);
+                if (Packets.containsKey(index) || Packets.containsValue(c))
+                {
+                    return false;
+                }
+
+                Packets.put(index, c);
+            }
 
             return true;
         }
