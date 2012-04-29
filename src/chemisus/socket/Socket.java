@@ -427,6 +427,37 @@ public class Socket
     }
 
     /**
+     * Tries to write a {@link Packet} to the socket.
+     * 
+     * @return {@link boolean}
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The packet was successfully sent.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The packet was not successfully sent.</td>
+     *  </tr>
+     * </table>
+     */
+    public boolean tryWrite(Packet packet)
+    {
+        try
+        {
+            write(packet);
+            
+            return true;
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+
+    /**
      * Read a {@link Packet} from the socket.
      * 
      * @return {@link Packet} the packet that was read.
@@ -471,6 +502,37 @@ public class Socket
     public void close() throws IOException
     {
         socket.close();
+    }
+    
+    /**
+     * Tries to close the socket.
+     * 
+     * @return {@link boolean}
+     * <table>
+     *  <tr>
+     *      <td><i>true</i></td>
+     *      <td>The socket was successfully closed.</td>
+     *  </tr>
+     *  <tr>
+     *      <td><i>false</i></td>
+     *      <td>The socked was not successfully closed.</td>
+     *  </tr>
+     * </table>
+     */
+    public boolean tryClose()
+    {
+        try
+        {
+            close();
+            
+            return true;
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
     }
 
     /*\**********************************************************************\*/
