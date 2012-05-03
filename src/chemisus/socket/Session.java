@@ -267,4 +267,23 @@ public class Session
         
         public void onStopped(Session session);
     }
+    
+    public static class Handler
+        implements Callback
+    {
+        @Override
+        public void onReceived(Session session, Packet packet)
+        {
+        }
+
+        @Override
+        public void onStarted(Session session)
+        {
+        }
+
+        @Override
+        public void onStopped(Session session)
+        {
+        }
+    }
 }
