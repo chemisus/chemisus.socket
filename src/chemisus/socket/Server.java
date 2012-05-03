@@ -279,4 +279,22 @@ public class Server
         public void onStarted(Server server);
     }
     
+    public static class Handler
+        implements Callback
+    {
+        @Override
+        public void onRequest(Server server, java.net.Socket socket)
+        {
+        }
+
+        @Override
+        public void onStopped(Server server)
+        {
+        }
+
+        @Override
+        public void onStarted(Server server)
+        {
+        }
+    }
 }
